@@ -1,0 +1,115 @@
+.q_a_container{
+    width: 90%;
+    margin: 0 auto;
+}
+.topArea{
+    display: flex;
+    flex-direction: row;
+    margin: 15px auto;
+    justify-content: space-between;
+}
+.searchArea{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.questionInput{
+    width: 550px;
+    height: 30px;
+    border-radius: 16px;
+}
+.searchImg{
+    width: 40px;
+    height: auto;
+}
+.createBtn{
+    width: 110px;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 20px;
+    line-height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.createImg{
+    width: 16px;
+    height: auto;
+    margin-left: 5px;
+}
+.classify_nav{
+    display: flex;
+    flex-direction: row;
+    background: rgb(252, 252, 252);
+}
+.classify{
+    width: 50%;
+    padding: 10px 0;
+}
+.classify:hover{
+    background: rgb(250, 245, 245);
+}
+.classify:focus{
+    border-bottom: 1px solid rgb(231, 200, 205);
+}
+.list{
+    list-style: none;
+    width: 100%;
+    margin: 0 auto;
+    background: rgb(245, 239, 239);
+    padding: 15px 0;
+}
+.list li{
+    width: 90%;
+    text-align: left;
+    border-bottom: 1px solid rgb(136, 136, 136);
+    margin: 0 auto;
+}
+.table{
+    margin: 0 auto;
+    padding: 10px;
+    background: rgba(255, 255, 255,0.5);
+    border-radius: 30px;
+    width: 80%;
+    position: relative;
+}
+.inputPart{
+    width: 500px;
+    text-align: left;
+    margin: 0 auto;
+}
+.backBtn{
+    position: absolute;
+    width: 80px;
+    height: 35px;
+    line-height: 35px;
+    border: 2px solid black;
+    border-radius: 20px;
+    top: 20px;
+    left: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.backImg{
+    width: 20px;
+    margin-right: 5px;
+}
+.awardInput{
+    width: 40px;
+    margin-left: 5px;
+}
+.describtionInput{
+    width: 400px;
+    min-height: 300px;
+}
+.submitBtn{
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid rgb(238, 181, 190);
+    background: rgb(238, 181, 190);
+    color: white;
+    margin: 15px auto;
+}
