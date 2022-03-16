@@ -1,0 +1,47 @@
+.table{
+    margin: 0 auto;
+    padding: 10px;
+    background: rgba(255, 255, 255,0.5);
+    border-radius: 30px;
+    width: 80%;
+    position: relative;
+}
+.inputPart{
+    width: 500px;
+    text-align: left;
+    margin: 0 auto;
+}
+.backBtn{
+    position: absolute;
+    width: 80px;
+    height: 35px;
+    line-height: 35px;
+    border: 2px solid black;
+    border-radius: 20px;
+    top: 20px;
+    left: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.backImg{
+    width: 20px;
+    margin-right: 5px;
+}
+.awardInput{
+    width: 40px;
+    margin-left: 5px;
+}
+.describtionInput{
+    width: 400px;
+    min-height: 300px;
+}
+.submitBtn{
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid rgb(238, 181, 190);
+    background: rgb(238, 181, 190);
+    color: white;
+    margin: 15px auto;
+}

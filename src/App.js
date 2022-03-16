@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './App.css';
 import titlePic from './img/titlepic.png'
 import QuestionList from './component/questionList/questionList';
+import AddQuestion from './component/addQuestion/addQuestion';
 import SmallLogin from './component/smallLogin/smallLogin';
 import Login from './component/login/login';
 import Share from './component/share/share';
@@ -38,6 +39,7 @@ function App() {
         <div className="showArea">
           <Routes>
             <Route path="/questionlist" element={<QuestionList userInfo={userInfo}/>}></Route>
+            <Route path="/questionlist/createquestion" element={<AddQuestion userInfo={userInfo}/>}></Route>
             <Route path="/share" element={<Share/>}></Route>
             <Route path="/login" element={<Login changeStateMethod={loginStateChange}/>}></Route>
           </Routes>
