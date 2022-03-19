@@ -61,7 +61,7 @@ const AddQuestion = props => {
 
     return(
         <div className="table">
-            <div className="backBtn" onClick={()=>{history.push('/questionlist')}}>
+            <div className="backBtn" onClick={()=>{history.go(-1)}}>
                 <img className="backImg" src={backImg}/>
                     返回
             </div>

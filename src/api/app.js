@@ -88,6 +88,11 @@ app.post('/addQuestion',(req,res)=>{
     })
 })
 
-app.get('/list',(req,res)=>{
-
+app.get('/getQuestionList',(req,res)=>{
+    db.query('SELECT * FROM question',
+    (e,r)=>{
+        console.log(e,r)
+        res.json(r)
+    })
+    
 })

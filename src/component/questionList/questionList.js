@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom'
 import './questionList.css'
 import axios from 'axios'
@@ -10,6 +10,13 @@ import history from '../../service/history';
 const QuestionList = props => {
     const [value, setValue] = useState('')
     const [userInfo, setUserInfo] = useState(props.userInfo)
+    const [qlist, setQlist] = useState([])
+
+    useRef(async ()=>{
+        const info = await axios.get('http://localhost:3001/getQuestionList')  
+        console.log(info)
+        setQlist(info)
+    },[])
 
     const QList = () => { 
         const info = [
@@ -25,7 +32,7 @@ const QuestionList = props => {
                 </div>
                 <ul className="list">
                     {
-                        info.map(item=>{
+                        qlist.map(item=>{
                             return(
                                 <li>
                                     <h4>问题：{item.q}</h4>
@@ -50,13 +57,7 @@ const QuestionList = props => {
                     <input placeholder="请输入关键字" className="questionInput" onChange={e => {setValue(e.target.value);setAward(0)}} value={value}></input>
                     <img alt="搜索" src={searchImg} className="searchImg" onClick={handleSearch}/>
                 </div>
-                <div className="createBtn" onClick={
-                        ()=>{
-                            
-                            history.push('/questionlist/createquestion')
-                            
-                        }
-                    }>
+                <div className="createBtn">
                     <Link to='/questionlist/createquestion'>发起提问</Link>
                     <img className="createImg" src={createImg}/>
                 </div>
