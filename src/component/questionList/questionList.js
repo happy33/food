@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import './questionList.css'
 import axios from 'axios'
@@ -12,18 +12,13 @@ const QuestionList = props => {
     const [userInfo, setUserInfo] = useState(props.userInfo)
     const [qlist, setQlist] = useState([])
 
-    useRef(async ()=>{
+    useEffect(async ()=>{
         const info = await axios.get('http://localhost:3001/getQuestionList')  
-        console.log(info)
-        setQlist(info)
+        console.log(info.data)
+        setQlist(info.data)
     },[])
 
     const QList = () => { 
-        const info = [
-            {q:"我是谁",a:"33"},  
-            {q:"我是谁",a:"黄黄"},
-            {q:"hi",a:"33"},
-        ]
         return(
             <div>
                 <div className="classify_nav">
@@ -35,8 +30,10 @@ const QuestionList = props => {
                         qlist.map(item=>{
                             return(
                                 <li>
-                                    <h4>问题：{item.q}</h4>
-                                    <p>回答：{item.a}</p>
+                                    <h4>问题：{item.question}</h4>
+                                    {
+                                        item.answerNum == 0 && <p>暂未有人回答</p>
+                                    }
                                 </li>
                             )
                         })
