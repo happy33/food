@@ -79,12 +79,12 @@ app.post('/checkPhone',(req,res)=>{
 app.post('/addQuestion',(req,res)=>{
     db.query(`INSERT INTO question (question,award,userID,mode,questionID,date,pic,answerNum) VALUES ('${req.body.question}',${req.body.award},'${req.body.userID}','${req.body.mode}','${req.body.questionID}','${req.body.date}','${req.body.pic}',0)`,
     (e,r)=>{
+        console.log(e)
         if(r.data !== ''){
             res.json('发布成功')
         }else{
             res.json('发布失败')
         }
-        res.json(r)
     })
 })
 
@@ -95,4 +95,21 @@ app.get('/getQuestionList',(req,res)=>{
         res.json(r)
     })
     
+})
+
+app.post('/searchQuestion',(req,res)=>{
+    db.query(`SELECT * FROM question WHERE question LIKE '%${req.body.value}%'`,
+    (e,r)=>{
+        console.log(e,r)
+        res.json(r)
+    })
+})
+
+app.post('/getQuestionDetail',(req,res)=>{
+    db.query(`SELECT * FROM answer WHERE questionID = '${req.body.questionID}'`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
 })

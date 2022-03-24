@@ -66,3 +66,8 @@
     border-bottom: 1px solid rgb(136, 136, 136);
     margin: 0 auto;
 }
+.qbox{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

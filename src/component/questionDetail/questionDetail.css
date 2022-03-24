@@ -1,0 +1,33 @@
+.question_detail_container{
+    width: 90%;
+    height: 560px;
+    margin: 0 auto;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+}
+.questionArea{
+    width: 90%;
+    height: 50%;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.6);
+}
+.answerArea{
+    width: 90%;
+    height: 50%;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.4);
+}
+p{
+    margin: 0;
+}
+.answerBtn{
+    height: 40px;
+    width: 150px;
+    background-color: rgb(245, 171, 33);
+    color: rgb(255, 255, 255);
+    margin: 0 auto;
+    border-radius: 30px;
+    font-size: 20px;
+    line-height: 40px;
+}

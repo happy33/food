@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter as Router, Link } from 'react-router-dom'
+import { Routes, Route, BrowserRouter as Router, Link, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react';
 import './App.css';
 import titlePic from './img/titlepic.png'
@@ -7,13 +7,15 @@ import AddQuestion from './component/addQuestion/addQuestion';
 import SmallLogin from './component/smallLogin/smallLogin';
 import Login from './component/login/login';
 import Share from './component/share/share';
-import { useEffect } from 'react/cjs/react.development';
+import QuestionDetail from './component/questionDetail/questionDetail';
+import AnswerQuestion from './component/answerQuestion/answerQuestion';
 
 const Nav = () => {
+  const navigate = useNavigate();
   return(
     <div className="nav_area">
       <ul className="nav">
-        <li><Link to="/questionlist">问答专区</Link></li>
+        <li onClick={()=>{navigate("/questionlist")}}>问答专区</li>
         <li>视频教学</li>
         <li>美食圈子</li>
       </ul>
@@ -39,7 +41,9 @@ function App() {
         <div className="showArea">
           <Routes>
             <Route path="/questionlist" element={<QuestionList userInfo={userInfo}/>}></Route>
-            <Route path="/questionlist/createquestion" element={<AddQuestion userInfo={userInfo}/>}></Route>
+            <Route path='/questionlist/questiondetail' element={<QuestionDetail/>}></Route>
+            <Route path='/questionlist/questiondetail/answerquestion' element={<AnswerQuestion userInfo={userInfo}/>}></Route>
+            <Route path="/createquestion" element={<AddQuestion userInfo={userInfo}/>}></Route>
             <Route path="/share" element={<Share/>}></Route>
             <Route path="/login" element={<Login changeStateMethod={loginStateChange}/>}></Route>
           </Routes>

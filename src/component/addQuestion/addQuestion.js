@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import './addQuestion.css'
 import axios from 'axios'
 import history from '../../service/history';
@@ -10,6 +11,7 @@ const AddQuestion = props => {
     const [question, setQuestion] = useState('')
     const [userInfo, setUserInfo] = useState(props.userInfo)
     const [imageURL, setImageURL] = useState('')
+    const navigate = useNavigate()
 
     const getDate = () => {
         const date = new Date()
@@ -28,7 +30,6 @@ const AddQuestion = props => {
 
     const handleInputFile = e => {
         const reader = new FileReader()
-        console.log(e)
         if(e.target.files[0].size>1024*1024){
             alert('上传图片大小不能超过1M')
         }else{
@@ -50,7 +51,7 @@ const AddQuestion = props => {
                 console.log(res)
                 alert(res.data)
                 if(res.data === '发布成功'){
-                    history.push('/questionlist')
+                    navigate('/questionlist')
                 }
             }catch(e){
                 console.log(e)
@@ -61,7 +62,7 @@ const AddQuestion = props => {
 
     return(
         <div className="table">
-            <div className="backBtn" onClick={()=>{history.go(-1)}}>
+            <div className="backBtn" onClick={()=>{navigate('/questionlist')}}>
                 <img className="backImg" src={backImg}/>
                     返回
             </div>
