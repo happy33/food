@@ -66,7 +66,7 @@ const QuestionList = props => {
                 setSearchList(res.data)
                 if(res.data.length == 0){
                     alert("未发现相关问题")
-                    history.push('/questionlist/createquestion')
+                    navigate('/questionlist/createquestion')
                 }
             }catch(e){
                 console.log(e)
@@ -78,7 +78,7 @@ const QuestionList = props => {
     return(
         <div className="q_a_container">
             <div className="topArea">
-                <div className="searchArea">
+                <div className="searchQuestion">
                     <input type="text" placeholder="请输入关键字" className="questionInput" onChange={e => {setValue(e.target.value)}} value={value}></input>
                     <img alt="搜索" src={searchImg} className="searchImg" onClick={handleSearch}/>
                 </div>

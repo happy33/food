@@ -1,0 +1,7 @@
+.share_container{
+    width: 90%;
+    height: 560px;
+    margin: 0 auto;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.5);
+}

@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const Blob = require('blob-polyfill')
 const app = express()
 const mysql = require('mysql')
 const bodyParser=require('body-parser');
@@ -107,6 +108,73 @@ app.post('/searchQuestion',(req,res)=>{
 
 app.post('/getQuestionDetail',(req,res)=>{
     db.query(`SELECT * FROM answer WHERE questionID = '${req.body.questionID}'`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+})
+
+app.post('/addAnswer',(req,res)=>{
+    db.query(`INSERT INTO answer VALUES ('${req.body.questionID}','${req.body.answer}','${req.body.userID}','${req.body.answerID}','${req.body.date}','${req.body.pic}')`,
+        (e,r)=>{
+            console.log(e,r)
+            if(r.data !== ''){
+                res.json('发布成功')
+            }else{
+                res.json('发布失败')
+            }
+        }
+    )
+    db.query(`UPDATE question SET answerNum=answerNum+1 WHERE questionID='${req.body.questionID}'`,
+        (e,r)=>{
+            console.log(e,r)
+        }
+    )
+})
+
+app.post('/addShare',(req,res)=>{
+    db.query(`INSERT INTO moments VALUES ('${req.body.momentID}','${req.body.text}','${req.body.pic}','${req.body.userID}','${req.body.date}','${req.body.likeNum}','${req.body.commentNum}')`,
+        (e,r)=>{
+            console.log(e,r)
+            if(r.data !== ''){
+                res.json('发布成功')
+            }else{
+                res.json('发布失败')
+            }
+        }
+    )
+})
+
+app.get('/getShare',(req,res)=>{
+    db.query('SELECT * FROM moments',
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+})
+
+app.get('/getSharePic',(req,res)=>{
+    db.query('SELECT pic FROM moments',
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+})
+
+app.get('/getRecipeList',(req,res)=>{
+    db.query('SELECT * FROM recipe',
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+})
+
+app.post('/getSearchRecipe',(req,res)=>{
+    db.query(`SELECT * FROM recipe WHERE recipeName like '%${req.body.recipeName}%'`,
         (e,r)=>{
             console.log(e,r)
             res.json(r)
