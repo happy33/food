@@ -1,12 +1,24 @@
 .container{
     display: flex;
     flex-direction: row;
-    width: 250px;
+    width: 220px;
     position: absolute;
     top: 80px;
-    right: 10px;
+    right: 0px;
     height: 40px;
     line-height: 40px;
+}
+.unloginText{
+    color: rgb(255, 249, 223);
+}
+.loginBtn{
+    width: 120px;
+    height: 34px;
+    line-height: 34px;
+    background: rgb(255, 210, 11);
+    margin-top: 3px;
+    margin-left: 5px;
+    border-radius: 15px;
 }
 
     

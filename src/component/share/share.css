@@ -1,7 +1,71 @@
-.share_container{
-    width: 90%;
-    height: 560px;
+.createShareBtn{
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    width: 110px;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 20px;
+    line-height: 35px;
+    background: rgba(255,255,255,0.4);
+}
+.showlist{
+    width: 70%;
+    height: 520px;
     margin: 0 auto;
-    border-radius: 30px;
+    padding: 20px 10px;
     background: rgba(255,255,255,0.5);
+    list-style: none;
+    overflow-y: scroll;
+}
+.share_detail{
+    position: relative;
+    border: 2px solid gray;
+    margin-top: 10px;
+    min-height: 120px;
+    padding-bottom: 35px;
+}
+.top_area{
+    display: flex;
+    flex-direction: row;
+    color: rgb(95, 91, 90);
+    font-size: 18px;
+    position: relative;
+}
+.user{
+    text-align: left;
+    margin-left: 20px;
+}
+.top_area .date{
+    position: absolute;
+    right: 10px;
+}
+.moment_text{
+    text-align: left;
+    padding: 0 20px;
+}
+.moment_pic{
+    width: 100%;
+    height: 90px;
+}
+.moment_pic img{
+    height: 100%;
+    width: auto;
+}
+.bottom_area{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid gray;
+}
+.bottom_area div{
+    height: 30px;
+    width: 50%;
+    line-height: 30px;
+    text-align: center;
+}
+.like{
+    background: pink;
 }

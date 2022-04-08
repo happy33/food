@@ -1,8 +1,5 @@
-.q_a_container{
-    width: 90%;
-    margin: 0 auto;
-}
 .topArea{
+    width: 90%;
     display: flex;
     flex-direction: row;
     margin: 15px auto;
@@ -12,7 +9,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 0 !important;
+    margin: 0;
 }
 .questionInput{
     width: 550px;
@@ -23,7 +20,7 @@
     width: 40px;
     height: auto;
 }
-.createBtn{
+.createQuestionBtn{
     width: 110px;
     height: 35px;
     border: 2px solid black;
@@ -40,6 +37,10 @@
     height: auto;
     margin-left: 5px;
 }
+.question_list{
+    width: 90%;
+    margin: 0 auto;
+}
 .classify_nav{
     display: flex;
     flex-direction: row;
@@ -52,15 +53,15 @@
 .classify:hover{
     background: rgb(250, 245, 245);
 }
-.classify:focus{
-    border-bottom: 1px solid rgb(231, 200, 205);
+.classify_active{
+    border-bottom: 3px solid rgb(255, 174, 188);
 }
 .list{
     list-style: none;
     width: 100%;
     height: 400px;
     margin: 0 auto;
-    background: rgb(245, 239, 239);
+    background: rgba(245, 239, 239,0.8);
     padding: 15px 0;
     overflow-y: scroll;
 }

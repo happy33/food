@@ -1,28 +1,26 @@
 import React from 'react';
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './smallLogin.css';
 
 const SmallLogin = props => {
     const loginState = props.loginState
-    const userInfo = props.userInfo
+    const userName = props.userName
+    const navigate = useNavigate()
     return(
         <div className='container'>
-            <div className='userPic'>
-                <img alt='头像'/>
-            </div>
             {
                 loginState == false ? 
                 (
                     <>
-                        <div>用户未登录</div>
-                        <Link to='/login'><div className='loginBtn'>登录/注册</div></Link>
+                        <div className='unloginText'>未登录</div>
+                        <div className='loginBtn' onClick={()=>{navigate('/login')}}>登录/注册</div>
                     </>
                 )
                 :(
                     <>
-                        <div>{userInfo.username}</div>
-                        <div>个人中心</div>
+                        <div>{userName}</div>
+                        <div className='loginBtn' onClick={()=>{navigate('/usercenter')}}>个人中心</div>
+                        <div onClick={()=>props.changeStateMethod(false,{})}>退出</div>
                     </>
                 )
             }

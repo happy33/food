@@ -1,11 +1,20 @@
 const express = require('express')
 const cors = require('cors')
-const Blob = require('blob-polyfill')
 const app = express()
 const mysql = require('mysql')
 const bodyParser=require('body-parser');
-const { thisExpression } = require('@babel/types')
+const multer = require('multer')
+const fs = require('fs')
+const path = require('path')
 app.listen(3001,()=>{console.log('服务启动')})
+
+app.use(cors())
+app.use(bodyParser.urlencoded({
+	extended:false,
+    limit: '50mb'
+}));
+app.use(bodyParser.json({limit: '50mb'}))
+app.use(express.static('public'))
 
 const db = mysql.createConnection({
     host : 'localhost',
@@ -20,20 +29,24 @@ db.connect((err) => {
     console.log("success")
 })
 
-app.use(cors())
-app.use(bodyParser.urlencoded({
-	extended:false,
-	//不使用第三方的qs模块，会使用querystring模块将查询字符串解析为对象
-    limit: '50mb'
-}));
-app.use(bodyParser.json({limit: '50mb'}))
+const upload = multer({ dest: './public/' })
+app.post('/uploadFile',upload.single('avatar'), function(req, res, next){
+    console.log(req.file)
+    let old = req.file.path 
+    let name = req.file.path + path.parse(req.file.originalname).ext 
+  
+    fs.renameSync(old, name)
+    res.json({
+      'imgpath':name
+    });
+  })
 
 app.post('/login',(req,res)=>{
-    db.query('SELECT * FROM user WHERE account = ' + req.body.account,(e,r)=>{
-        console.log(r)
+    db.query('SELECT * FROM user WHERE userID = ' + req.body.userID,(e,r)=>{
+        console.log(e,r)
         if(r[0]){
             if(r[0].password == req.body.password){
-                res.json(['登录成功',r[0].account,r[0].username])
+                res.json(['登录成功',r[0]])
             }else{
                 res.json(['密码错误'])
             }
@@ -44,17 +57,19 @@ app.post('/login',(req,res)=>{
 })
 
 app.post('/register',(req,res)=>{
-    db.query(`INSERT INTO user (account , password , username) VALUES (${req.body.account}, ${req.body.password}, ${req.body.username})`,
+    db.query(`INSERT INTO user (userID, password, username, signDate) VALUES ('${req.body.userID}', '${req.body.password}','${req.body.username}','${req.body.signDate}')`,
     (e,r)=>{
         if(r.data !== ''){
             res.json('注册成功')
         }
-        res.json(r)
+        console.log(e,r)
     })
 })
 
 app.post('/checkName',(req,res)=>{
-    db.query('SELECT * FROM user WHERE username = ' + req.body.username,(e,r)=>{
+    db.query(`SELECT * FROM user WHERE username = '${req.body.username}'`,
+        (e,r)=>{
+        console.log(e,r)
         if(r){
             if(r.length == 0){
                 res.json('该用户名可用')
@@ -66,7 +81,7 @@ app.post('/checkName',(req,res)=>{
 })
 
 app.post('/checkPhone',(req,res)=>{
-    db.query('SELECT * FROM user WHERE account = ' + req.body.account,(e,r)=>{
+    db.query('SELECT * FROM user WHERE userID = ' + req.body.userID,(e,r)=>{
         if(r){
             if(r.length !== 0){
                 res.json('该手机号已被注册')
@@ -87,6 +102,11 @@ app.post('/addQuestion',(req,res)=>{
             res.json('发布失败')
         }
     })
+    db.query(`UPDATE user SET questionNum=questionNum+1 WHERE userID = '${req.body.userID}'`,
+        (e,r)=>{
+            console.log(e,r)
+        }
+    )
 })
 
 app.get('/getQuestionList',(req,res)=>{
@@ -95,7 +115,14 @@ app.get('/getQuestionList',(req,res)=>{
         console.log(e,r)
         res.json(r)
     })
-    
+})
+
+app.post('/getQuestionDetail',(req,res)=>{
+    db.query(`SELECT * FROM question WHERE questionID = '${req.body.questionID}'`,
+    (e,r)=>{
+        console.log(e,r)
+        res.json(r)
+    })
 })
 
 app.post('/searchQuestion',(req,res)=>{
@@ -106,7 +133,7 @@ app.post('/searchQuestion',(req,res)=>{
     })
 })
 
-app.post('/getQuestionDetail',(req,res)=>{
+app.post('/getAnswer',(req,res)=>{
     db.query(`SELECT * FROM answer WHERE questionID = '${req.body.questionID}'`,
         (e,r)=>{
             console.log(e,r)
@@ -131,6 +158,11 @@ app.post('/addAnswer',(req,res)=>{
             console.log(e,r)
         }
     )
+    db.query(`UPDATE user SET answerNum=answerNum+1 WHERE userID = ${req.body.userID}`,
+        (e,r)=>{
+            console.log(e,r)
+        }
+    )
 })
 
 app.post('/addShare',(req,res)=>{
@@ -142,6 +174,11 @@ app.post('/addShare',(req,res)=>{
             }else{
                 res.json('发布失败')
             }
+        }
+    )
+    db.query(`UPDATE user SET shareNum=shareNum+1 WHERE userID = ${req.body.userID}`,
+        (e,r)=>{
+            console.log(e,r)
         }
     )
 })
@@ -181,3 +218,109 @@ app.post('/getSearchRecipe',(req,res)=>{
         }
     )
 })
+
+app.post('/addLike',(req,res)=>{
+    db.query(`UPDATE moments SET likeNum=likeNum+1 WHERE momentID = '${req.body.momentID}'`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+    db.query(`UPDATE user SET likeNum=likeNum+1 WHERE userID = '${req.body.userID}'`,
+        (e,r)=>{
+            console.log(e,r)
+        }
+    )
+    db.query(`INSERT INTO likes VALUES ('${req.body.userID}','${req.body.momentID}','${req.body.likeID}')`,
+        (e,r)=>{
+            console.log(e,r)
+        }
+    )
+})
+
+app.post('/cancelLike',(req,res)=>{
+    db.query(`UPDATE moments SET likeNum=likeNum-1 WHERE momentID = '${req.body.momentID}'`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+    db.query(`UPDATE user SET likeNum=likeNum-1 WHERE userID = '${req.body.userID}'`,
+        (e,r)=>{
+            console.log(e,r)
+        }
+    )
+    db.query(`DELETE FROM likes WHERE momentID = '${req.body.momentID}' AND userID = '${req.body.userID}'`,
+        (e,r)=>{
+            console.log(e,r)
+        }
+    )
+})
+
+app.post('/getLikeList',(req,res)=>{
+    db.query(`SELECT momentID FROM likes WHERE userID = '${req.body.userID}'`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+})
+
+app.post('/getComment',(req,res)=>{
+    db.query(`SELECT * FROM comment WHERE momentID = '${req.body.momentID}'`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+})
+
+app.post('/addComment',(req,res)=>{
+    db.query(`INSERT INTO comment VALUES ('${req.body.commentID}','${req.body.momentID}','${req.body.commentDetail}','${req.body.commenter}','${req.body.date}')`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+    db.query(`UPDATE moments SET commentNum=commentNum+1 WHERE momentID = '${req.body.momentID}'`,
+        (e,r)=>{
+            console.log(e,r)
+        }
+    )
+})
+
+app.post('/updateUserinfo',(req,res)=>{
+    db.query(`SELECT * FROM user WHERE userID = '${req.body.userID}'`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+})
+
+app.post('/updateSignDate',(req,res)=>{
+    db.query(`UPDATE user SET signDate = '${req.body.signDate}',signDay=0 WHERE userID = '${req.body.userID}'`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+    })
+})
+
+app.post('/updateSignInfo',(req,res)=>{
+    db.query(`UPDATE user SET award=award+${req.body.award},signDay=signDay+1,signDate='${req.body.signDate}' WHERE userID = '${req.body.userID}'`,
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+})
+
+app.get('/getAward',(req,res)=>{
+    db.query('SELECT * FROM awardmall',
+        (e,r)=>{
+            console.log(e,r)
+            res.json(r)
+        }
+    )
+})
+

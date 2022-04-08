@@ -1,22 +1,21 @@
-.recipe_detail_container{
-    position: relative;
-    width: 90%;
-    background: rgba(255,255,255,0.8);
-    height: 560px;
-    border-radius: 30px;
-}
 .backBtn{
     position: absolute;
     width: 70px;
     height: 30px;
+    line-height: 30px;
     top: 15px;
     left: 40px;
     border: 1px solid rgb(255, 153, 0);
+    border-radius: 20px;
     background: rgb(253, 168, 40);
     color: #fff;
 }
 .steps{
+    width: 90%;
+    height: 85%;
     list-style: none;
+    overflow-y: scroll;
+    margin: 0 auto;
 }
 .index{
     font-size: 28px;

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import './recipeDetail.css'
+import '../../common/common.css'
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -10,7 +11,7 @@ const RecipeDetail = () => {
     const steps = recipeinfo.stepDetail.split("&")
     console.log(recipeinfo,steps)
     return(
-        <div className='recipe_detail_container'>
+        <div className='big_container'>
             <h3>{recipeinfo.recipeName}</h3>
             <div className='backBtn' onClick={()=>{navigate('./../')}}>返回</div>
             <ul className='steps'>

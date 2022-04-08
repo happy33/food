@@ -1,0 +1,9 @@
+.big_container{
+    width: 90%;
+    height: 560px;
+    margin: 0 auto;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    position: relative;
+}

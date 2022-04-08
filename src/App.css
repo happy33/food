@@ -40,8 +40,47 @@ h1{
   background: rgb(255, 203, 59);
   border-radius: 20px;
 }
+.mallicon{
+  position: fixed;
+  right: 15px;
+  top: 180px;
+  z-index: 5;
+  animation: move 1.5s linear infinite;
+}
+.mallicon .bg{
+  height: 100px;
+  width: 110px;
+  background: url('./img/mall.png');
+  background-size: 100% 100%;
+}
+.mallicon p{
+  color: rgb(250, 221, 94);
+  font-size: 20px;
+  font-weight: 700;
+  text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+}
 .showArea{
   display: flex;
   justify-content: center;
   margin-top: 15px;
+}
+@keyframes move {
+  0%{
+    transform: rotate(5deg);
+  }
+  25%{
+    transform: rotate(0deg);
+  }
+  50%{
+    transform: rotate(-5deg);
+  }
+  75%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(5deg);
+  }
+}
+p{
+  margin: 0;
 }

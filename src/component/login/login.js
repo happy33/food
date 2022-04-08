@@ -3,11 +3,13 @@ import { useState } from 'react'
 import login from '../../img/login.png'
 import history from '../../service/history';
 import './login.css';
+import '../../common/common.css'
+import { getDate } from '../../common/common.js'
 import axios from 'axios';
 
 const Login = props => {
     const [loginTab, setLoginTab] = useState('focus')
-    const [account,setAccount] = useState('')
+    const [userID,setuserID] = useState('')
     const [password,setPassword] = useState('')
     const [registerTab, setRegisterTab] = useState('')
     const [phone, setPhone] = useState('')
@@ -39,7 +41,7 @@ const Login = props => {
     useEffect(async () => {
         try{
             if(phone.length == 11){
-                const res = await axios.post('http://localhost:3001/checkPhone',`account=${phone}`)
+                const res = await axios.post('http://localhost:3001/checkPhone',`userID=${phone}`)
                 setWarning(res.data)
             }else{
                 setWarning('')
@@ -51,10 +53,10 @@ const Login = props => {
 
     const handleLogin = async () => {
         try{
-            const res = await axios.post('http://localhost:3001/login',`account=${account}&password=${password}`)
+            const res = await axios.post('http://localhost:3001/login',`userID=${userID}&password=${password}`)
             alert(res.data[0])
             if(res.data[0] == '登录成功'){
-                props.changeStateMethod(true,{account:res.data[1],username:res.data[2]})
+                props.changeStateMethod(true,res.data[1])
                 history.go(-1)
             }
         }catch(e){
@@ -73,14 +75,16 @@ const Login = props => {
             setWarning('')
         }
         if(warning == '' && checkName == '该用户名可用'){
-            const res = await axios.post('http://localhost:3001/register',`account=${phone}&password=${confirmPassword}&username=${username}`)
-            console.log('--------------',res)
+            const res = await axios.post('http://localhost:3001/register',`userID=${phone}&password=${confirmPassword}&username=${username}&signDate=${getDate()}`)
+            console.log(res)
+            if(res.data === '注册成功'){
+                alert('注册成功')
+            }
         }
-        
     }
 
     return(
-        <div className='loginPage'>
+        <div className='big_container loginPage'>
             <div className='left'>
                 <img className='loginPic' src={login}/>
             </div>
@@ -91,7 +95,7 @@ const Login = props => {
                 </div>
                 {loginTab == 'focus' &&(
                     <div className='inputArea'>
-                        <p className='inputText'>账号：<input value={account} placeholder='请输入手机号码' onChange={e => {setAccount(e.target.value)}}/></p>
+                        <p className='inputText'>账号：<input value={userID} placeholder='请输入手机号码' onChange={e => {setuserID(e.target.value)}}/></p>
                         <p className='inputText'>密码：<input type='password' placeholder='请输入密码' value={password} onChange={e =>{setPassword(e.target.value)}}/></p>
                         <div className='submitBtn' onClick={handleLogin}>登录</div>
                     </div>

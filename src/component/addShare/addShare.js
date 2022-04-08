@@ -1,56 +1,56 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import './addShare.css'
+import '../../common/common.css'
+import { getDate, randomID, handleInputFile} from '../../common/common.js'
 
 const AddShare = props => {
+    const navigate = useNavigate()
+    const location = useLocation()
     const userInfo = props.userInfo
     const [inputText, setInputText] = useState('')
-    const [imageURL, setImageURL] = useState({})
-    const navigate = useNavigate()
-    const handleInputFile = e => {
-        const reader = new FileReader()
-        if(e.target.files[0].size>1024*1024){
-            alert('上传图片大小不能超过1M')
-        }else{
-            reader.readAsDataURL(e.target.files[0])
-            reader.onload = function(){
-                const blob = new Blob([reader.result],{type:"img/jpg"})
-                setImageURL(blob)
+    const [file, setFile] = useState(null)
+
+    const handleSubmit = async () =>{
+        if(props.userInfo.userID){
+            if(file === null){
+                const res = await axios.post('http://localhost:3001/addShare',`momentID=${randomID('s')}&text=${inputText}&pic=&userID=${userInfo.userID}&date=${getDate()}&likeNum=0&commentNum=0`)
+                console.log(res)
+                if(res.data === '发布成功'){
+                    alert('发布成功')
+                    navigate('./../')
+                }
+            }else{
+                try{
+                    await axios({
+                        url: 'http://localhost:3001/uploadFile',
+                        method: 'POST',
+                        Headers: {
+                          "Content-Type": "multipart/form-data",
+                        },
+                        data: file,
+                      }).then(async(r)=>{
+                        const imgURL = r.data.imgpath.replace(/\\/g,"\/")
+                        console.log(imgURL)
+                        const res = await axios.post('http://localhost:3001/addShare',`momentID=${randomID('s')}&text=${inputText}&pic=${imgURL}&userID=${userInfo.userID}&date=${getDate()}&likeNum=0&commentNum=0`)
+                        console.log(res)
+                        if(res.data === '发布成功'){
+                            alert('发布成功')
+                            navigate('./../')
+                        }
+                    })}catch(e){
+                    console.log(e)
+                    }
+                }
+            }else{
+                alert('请登录')
             }
         }
-    }
-    useEffect(()=>{
-        const pic = document.getElementById('showPic')
-        pic.setAttribute("src",imageURL)
-    },[imageURL])
-    const getDate = () => {
-        const date = new Date()
-        const year = date.getFullYear()
-        const month = date.getMonth()+1 < 10 ? `0${date.getMonth()+1}`:date.getMonth()+1
-        const day = date.getDate() < 10 ? `0${date.getDate()}`:date.getDate()
-        return `${year}-${month}-${day}`
-    }
-    const randomID = () => {
-        const letter = 's'
-        const date = getDate().replace(/-/g,'')
-        const random = Math.round(Math.random()*1000)
-        return `${letter}${date}${random}`
-    }
-    const handleSubmit = async () =>{
-        console.log(userInfo,imageURL,inputText,getDate(),randomID())
-        const res = await axios.post('http://localhost:3001/addShare',`momentID=${randomID()}&text=${inputText}&pic=${imageURL}&userID=${userInfo.account}&date=${getDate()}&likeNum=0&commentNum=0`)
-        console.log(res)
-        if(res.data === '发布成功'){
-            alert('发布成功')
-            navigate('./../')
-        }
-    }
     return(
-        <div className='addshare_container'>
+        <div className='big_container'>
             <input type="text" value={inputText} onChange={e=>setInputText(e.target.value)} placeholder='请输入分享内容'/>
-            <input type="file" onChange={handleInputFile}/>
-            <img id="showPic"/>
+            <input type="file" onChange={e=>setFile(handleInputFile(e))}/>
             <div className='submitBtn' onClick={handleSubmit}>发布</div>
         </div>
         

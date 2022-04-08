@@ -1,9 +1,3 @@
-.recipe_container{
-    width: 90%;
-    background: rgba(255, 255, 255, 0.5);
-    height: 560px;
-    border-radius: 30px;
-}
 .recipe_list{
     width: 90%;
     height: 420px;
@@ -11,11 +5,12 @@
     margin-top: 20px;
     display: flex;
     flex-flow: wrap;
+    overflow-y: scroll;
 }
 .searchRecipe{
     width: 90%;
-    margin: 10px auto;
-    margin-top: 20px;
+    margin: 0 auto;
+    margin-top: 17px;
     display: flex;
     flex-direction: row;
 }
